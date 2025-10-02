@@ -17,7 +17,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 230px;
+  width: 200px;
   background: #004080;
   color: white;
   padding: 20px;
@@ -142,7 +142,7 @@ body {
 .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px; /* <-- increase spacing between cards */
+  gap: 30px; /* spacing between cards */
 }
 .card {
   background: #00d9ff;
@@ -150,8 +150,8 @@ body {
   border-radius: 16px;
   box-shadow: 0 5px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.2s;
-  width: 455px;
-  margin: 15px; /* <-- adds space around each card */
+  width: 400px;
+  margin: 15px;
 }
 .card:hover {
   transform: translateY(-6px);
@@ -163,15 +163,13 @@ body {
   font-size: 18px;
 }
 
-/* Courses */
+/* Courses, Results, Announcements */
 .course-list, .results, .announcements {
   background: #fff;
   border-radius: 14px;
   padding: 25px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-
-/* Courses */
 .course-list h3, .results h3, .announcements h3 {
   color: #004080;
   margin-bottom: 15px;
@@ -195,8 +193,6 @@ body {
   background: #007bff;
   color: #fff;
 }
-
-/* Announcements */
 .announcement-item {
   border-left: 5px solid #007bff;
   padding: 12px 15px;
@@ -209,11 +205,36 @@ body {
   background: #eef5ff;
 }
 
-/* Responsive */
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .card {
+    width: 48%; /* two per row */
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
+  .sidebar { transform: translateX(-100%); border-radius: 0; }
   .sidebar.show { transform: translateX(0); }
   .main-content { margin-left: 0; }
   .header { justify-content: flex-start; }
   .header .menu-btn { display: block; }
+
+  .content {
+    grid-template-columns: 1fr; /* single column */
+    gap: 20px;
+  }
+
+  .card {
+    width: 90%; /* full width for phone */
+    padding: 15px;
+    font-size: 14px;
+    justify-self: center;
+  }
+
+  .header h1 { font-size: 18px; }
+  .topbar h2 { font-size: 16px; }
+  .topbar p { font-size: 12px; }
 }

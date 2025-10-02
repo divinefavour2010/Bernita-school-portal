@@ -9,7 +9,7 @@
 <body>
   <!-- Main Header -->
   <header class="header">
-    <h1>Bernita Intl.</h1>
+    <h1>Bernita International</h1>
     <button class="menu-btn" onclick="toggleSidebar()">☰</button>
   </header>
 
@@ -22,7 +22,7 @@
         <li><a href="#" onclick="loadPage('courses')">📘 Courses</a></li>
         <li><a href="#" onclick="loadPage('results')">📊 Results</a></li>
         <li><a href="#" onclick="loadPage('announcements')">📢 Announcements</a></li>
-        <li><a href="index.html" onclick="logout()">🚪 Logout</a></li>
+        <li><a href="#" onclick="logout()">🚪 Logout</a></li>
       </ul>
     </aside>
 
@@ -46,9 +46,9 @@
           <!-- Profile Card -->
           <div class="card profile-card">
             <h3>Your Profile</h3>
-            <p><strong>Name:</strong> John Doe</p>
-            <p><strong>Class:</strong> SS2</p>
-            <p><strong>ID:</strong> ST12345</p>
+            <p><strong>Name:</strong> <span id="profileName"></span></p>
+            <p><strong>Class:</strong> <span id="profileClass"></span></p>
+            <p><strong>ID:</strong> <span id="profileID"></span></p>
           </div>
 
           <!-- Assignments -->
@@ -80,22 +80,36 @@
   </div>
 
 <script>
-  // Load student details
+  // ===== AUTH CHECK =====
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!user) {
-    window.location.href = "index.html";
+    window.location.replace("index.html"); // block access if not logged in
   } else {
+    // Top bar
     document.getElementById("studentName").textContent = user.name;
     document.getElementById("studentID").textContent = user.id;
     document.getElementById("studentClass").textContent = user.class;
+
+    // Profile card (default dashboard)
+    document.getElementById("profileName").textContent = user.name;
+    document.getElementById("profileClass").textContent = user.class;
+    document.getElementById("profileID").textContent = user.id;
   }
 
+  // ===== LOGOUT =====
   function logout() {
-    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUser"); // clear session
     alert("You have been logged out!");
+    window.location.replace("index.html");
+
+    // Prevent forward/back into dashboard after logout
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function () {
+      window.history.pushState(null, "", window.location.href);
+    };
   }
 
-  // Sidebar toggle logic
+  // ===== SIDEBAR =====
   function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("show");
     document.getElementById("overlay").classList.toggle("show");
@@ -105,7 +119,7 @@
     document.getElementById("overlay").classList.remove("show");
   }
 
-  // Load pages dynamically
+  // ===== DYNAMIC PAGES =====
   function loadPage(page) {
     const content = document.getElementById("pageContent");
     document.querySelectorAll(".sidebar ul li a").forEach(link => link.classList.remove("active"));
@@ -178,7 +192,7 @@
       `;
       document.querySelector("a[onclick*='announcements']").classList.add("active");
     }
-    closeSidebar(); // auto close sidebar on mobile
+    closeSidebar();
   }
 </script>
 </body>
