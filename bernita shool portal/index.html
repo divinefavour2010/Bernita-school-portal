@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bernita School Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <!-- Logo / School Name -->
+      <div class="login-header">
+        <img src="school-logo.png" alt="School Logo" class="school-logo">
+        <h2>Bernita Student Portal</h2>
+        <p>Welcome! Please log in to continue</p>
+      </div>
+
+      <!-- Login Form -->
+      <form onsubmit="return loginUser(event)">
+        <div class="form-group">
+          <label for="username">Student ID / Username</label>
+          <input type="text" id="username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+        <p id="error-msg"></p>
+      </form>
+
+      <!-- Footer -->
+      <div class="login-footer">
+        <p>© 2025 My School. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

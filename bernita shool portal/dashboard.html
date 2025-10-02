@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bernita School Portal</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <!-- Main Header -->
+  <header class="header">
+    <h1>Bernita Intl.</h1>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </header>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="#" class="active" onclick="loadPage('dashboard')">🏠 Dashboard</a></li>
+        <li><a href="#" onclick="loadPage('courses')">📘 Courses</a></li>
+        <li><a href="#" onclick="loadPage('results')">📊 Results</a></li>
+        <li><a href="#" onclick="loadPage('announcements')">📢 Announcements</a></li>
+        <li><a href="index.html" onclick="logout()">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div>
+          <h2>Welcome, <span id="studentName"></span></h2>
+          <p>ID: <span id="studentID"></span> | Class: <span id="studentClass"></span></p>
+        </div>
+      </div>
+
+      <!-- Dynamic Dashboard Content -->
+      <section id="pageContent" class="content">
+        <!-- Default dashboard -->
+        <div class="dashboard">
+          <!-- Profile Card -->
+          <div class="card profile-card">
+            <h3>Your Profile</h3>
+            <p><strong>Name:</strong> John Doe</p>
+            <p><strong>Class:</strong> SS2</p>
+            <p><strong>ID:</strong> ST12345</p>
+          </div>
+
+          <!-- Assignments -->
+          <div class="card assignments-card">
+            <h3>Your Assignments</h3>
+            <ul>
+              <li>Mathematics Homework</li>
+              <li>English Essay</li>
+              <li>Biology Lab Report</li>
+            </ul>
+          </div>
+
+          <!-- Calendar -->
+          <div class="card calendar-card">
+            <h3>Calendar</h3>
+            <p>📅 Upcoming Exam: Oct 15</p>
+            <p>📅 Holiday: Oct 25</p>
+          </div>
+
+          <!-- Lessons -->
+          <div class="card lessons-card">
+            <h3>Lessons For You</h3>
+            <div class="lesson">📖 Basic Math</div>
+            <div class="lesson">💻 Web Development</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+  // Load student details
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user) {
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("studentName").textContent = user.name;
+    document.getElementById("studentID").textContent = user.id;
+    document.getElementById("studentClass").textContent = user.class;
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedInUser");
+    alert("You have been logged out!");
+  }
+
+  // Sidebar toggle logic
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("show");
+    document.getElementById("overlay").classList.toggle("show");
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("show");
+    document.getElementById("overlay").classList.remove("show");
+  }
+
+  // Load pages dynamically
+  function loadPage(page) {
+    const content = document.getElementById("pageContent");
+    document.querySelectorAll(".sidebar ul li a").forEach(link => link.classList.remove("active"));
+
+    if (page === "dashboard") {
+      content.innerHTML = `
+        <div class="dashboard">
+          <div class="card profile-card">
+            <h3>Your Profile</h3>
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Class:</strong> ${user.class}</p>
+            <p><strong>ID:</strong> ${user.id}</p>
+          </div>
+          <div class="card assignments-card">
+            <h3>Your Assignments</h3>
+            <ul>
+              <li>Mathematics Homework</li>
+              <li>English Essay</li>
+              <li>Biology Lab Report</li>
+            </ul>
+          </div>
+          <div class="card calendar-card">
+            <h3>Calendar</h3>
+            <p>📅 Upcoming Exam: Oct 15</p>
+            <p>📅 Holiday: Oct 25</p>
+          </div>
+          <div class="card lessons-card">
+            <h3>Lessons For You</h3>
+            <div class="lesson">📖 Basic Math</div>
+            <div class="lesson">💻 Web Development</div>
+          </div>
+        </div>
+      `;
+      document.querySelector("a[onclick*='dashboard']").classList.add("active");
+    }
+    else if (page === "courses") {
+      content.innerHTML = `
+        <div class="card">
+          <h2>📘 My Courses</h2>
+          <ul>
+            <li>Mathematics</li>
+            <li>English Language</li>
+            <li>Computer Science</li>
+            <li>Biology</li>
+          </ul>
+        </div>
+      `;
+      document.querySelector("a[onclick*='courses']").classList.add("active");
+    }
+    else if (page === "results") {
+      content.innerHTML = `
+        <div class="card">
+          <h2>📊 Results</h2>
+          <table border="1" cellpadding="10">
+            <tr><th>Subject</th><th>Grade</th></tr>
+            <tr><td>Mathematics</td><td>A</td></tr>
+            <tr><td>English</td><td>B</td></tr>
+            <tr><td>Computer Science</td><td>A</td></tr>
+          </table>
+        </div>
+      `;
+      document.querySelector("a[onclick*='results']").classList.add("active");
+    }
+    else if (page === "announcements") {
+      content.innerHTML = `
+        <div class="card">
+          <h2>📢 Announcements</h2>
+          <p>No new announcements at the moment.</p>
+        </div>
+      `;
+      document.querySelector("a[onclick*='announcements']").classList.add("active");
+    }
+    closeSidebar(); // auto close sidebar on mobile
+  }
+</script>
+</body>
+</html>
